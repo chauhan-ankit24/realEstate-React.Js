@@ -6,3 +6,7 @@ protected pages--not login -- can see these pages
 
 info -- use local storage
 security in calling api -- use cookie memory
+
+have both authentication and authorization
+
+express js middleware
