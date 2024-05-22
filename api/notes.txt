@@ -1,0 +1,5 @@
+cookie for session
+jwt
+middleware for some calls like deleting post , not for all
+protected pages--not login -- can see these pages
+                    not login -- see these pages

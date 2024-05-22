@@ -25,9 +25,21 @@ export const register = async (req, res) => {
 
         res.status(201).json({ message: "User created successfully" });
     } catch (err) {
-        console.log(err);
-        res.status(500).json({ message: "Failed to create user!" });
+        console.error(err);
+        if (err.code === 'P2002') {
+            if (err.meta?.target?.includes('email')) {
+                res.status(400).json({ message: "Email address already exists." });
+            } else if (err.meta?.target?.includes('username')) {
+                res.status(400).json({ message: "Username is already taken." });
+            } else {
+                res.status(500).json({ message: "Failed to create user!" });
+            }
+        } else {
+            res.status(500).json({ message: "Failed to create user!" });
+        }
     }
+
+
 };
 
 export const login = async (req, res) => {
