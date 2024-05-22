@@ -10,3 +10,5 @@ security in calling api -- use cookie memory
 have both authentication and authorization
 
 express js middleware
+
+usesontextapi - to get user value anywhere

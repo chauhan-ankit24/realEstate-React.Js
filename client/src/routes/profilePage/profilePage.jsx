@@ -2,15 +2,18 @@ import Chat from "../../components/chat/Chat";
 import List from "../../components/list/List";
 import "./profilePage.scss";
 import apiRequest from "../../lib/apiRequest";
-import { useNavigate } from "react-router-dom";
+import { Await, Link, useLoaderData, useNavigate } from "react-router-dom";
+import { Suspense, useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 function ProfilePage() {
   const navigate = useNavigate();
+  const { updateUser, currentUser } = useContext(AuthContext);
 
   const handleLogout = async () => {
     try {
       await apiRequest.post("/auth/logout");
-      localStorage.removeItem("user");
+      updateUser(null);
       navigate("/");
     } catch (err) {
       console.log(err);
@@ -28,10 +31,7 @@ function ProfilePage() {
           <div className="info">
             <span>
               Avatar:
-              <img
-                src="https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                alt=""
-              />
+              <img src={currentUser.avatar || "noavatar.jpg"} alt="" />
             </span>
             <span>
               Username: <b>John Doe</b>
