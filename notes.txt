@@ -12,3 +12,7 @@ have both authentication and authorization
 express js middleware
 
 usesontextapi - to get user value anywhere
+
+protected our routes -- layout file
+
+react image for profile image -- cloudinary

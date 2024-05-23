@@ -5,8 +5,9 @@ import { useState } from "react";
 import apiRequest from "../../lib/apiRequest";
 
 function Register() {
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -33,9 +34,8 @@ function Register() {
       setIsLoading(false);
     }
   };
-
   return (
-    <div className="register">
+    <div className="registerPage">
       <div className="formContainer">
         <form onSubmit={handleSubmit}>
           <h1>Create an Account</h1>
@@ -43,7 +43,7 @@ function Register() {
           <input name="email" type="text" placeholder="Email" />
           <input name="password" type="password" placeholder="Password" />
           <button disabled={isLoading}>Register</button>
-          {error && <span className="error">{error}</span>}
+          {error && <span>{error}</span>}
           <Link to="/login">Do you have an account?</Link>
         </form>
       </div>
