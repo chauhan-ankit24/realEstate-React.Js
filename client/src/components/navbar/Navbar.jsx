@@ -5,10 +5,7 @@ import { AuthContext } from "../../context/AuthContext";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
-
   const { currentUser } = useContext(AuthContext);
-
-
 
   return (
     <nav>
@@ -51,8 +48,8 @@ function Navbar() {
           <a href="/">About</a>
           <a href="/">Contact</a>
           <a href="/">Agents</a>
-          <a href="/">Sign in</a>
-          <a href="/">Sign up</a>
+          <a href="/login">Sign in</a>
+          <a href="/register">Sign up</a>
         </div>
       </div>
     </nav>

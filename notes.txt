@@ -16,3 +16,5 @@ usesontextapi - to get user value anywhere
 protected our routes -- layout file
 
 react image for profile image -- cloudinary react
+
+to fetch data - using react router dom(loading data ) in new post
