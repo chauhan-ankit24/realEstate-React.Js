@@ -10,7 +10,7 @@ export const SocketContextProvider = ({ children }) => {
 
   useEffect(() => {
     // setSocket(io("http://localhost:4000"));
-    setSocket(io("https://real-estate-react-js-tau.vercel.app/"));
+    setSocket(io("https://real-estate-react-js-e5ko.vercel.app/"));
   }, []);
 
   useEffect(() => {
