@@ -1,18 +1,30 @@
 import "./singlePage.scss";
 import Slider from "../../components/slider/Slider";
 import Map from "../../components/map/Map";
-import { useNavigate, useLoaderData } from "react-router-dom";
+import { useNavigate, useLoaderData, Link } from "react-router-dom";
 import DOMPurify from "dompurify";
-import { useContext, useState } from "react";
+import { useContext, useState, useRef } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import apiRequest from "../../lib/apiRequest";
+import Chat from "../../components/chat/Chat";
+import { format } from "timeago.js";
+import { SocketContext } from "../../context/SocketContext";
+
 
 function SinglePage() {
   const post = useLoaderData();
-  // console.log(post);
+  console.log(post);
+
+  const [chatId, setChatId] = useState(null);
   const [saved, setSaved] = useState(post.isSaved);
   const { currentUser } = useContext(AuthContext);
+  console.log(currentUser);
+  const [chat, setChat] = useState(null);
+  console.log(chat)
+
   const navigate = useNavigate();
+  const messageEndRef = useRef();
+  const { socket } = useContext(SocketContext);
 
   const handleSave = async () => {
     if (!currentUser) {
@@ -27,7 +39,44 @@ function SinglePage() {
       setSaved((prev) => !prev);
     }
   };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
+    const formData = new FormData(e.target);
+    const text = formData.get("text");
+
+    if (!text) return;
+    try {
+      const res = await apiRequest.post("/messages/" + chatId, { text });
+      setChat((prev) => ({ ...prev, messages: [...prev.messages, res.data] }));
+      e.target.reset();
+      socket.emit("sendMessage", {
+        receiverId: post.userId,
+        data: res.data,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleOpenChat = async (id, receiver) => {
+    try {
+      console.log(id, receiver);
+      const res = await apiRequest("/chats/" + id + "/" + receiver);
+      // console.log(res.data[0].messages);
+      // console.log(res.data[0]);
+      setChatId(res.data[0].id);
+      // console.log(chatId)
+
+      // if (!res.data.seenBy.includes(currentUser.id)) {
+      // decrease();
+      // }
+      setChat({ ...res.data[0].messages, receiver });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+// console.log(chatId)
   return (
     <div className="singlePage">
       <div className="details">
@@ -57,7 +106,7 @@ function SinglePage() {
           </div>
         </div>
       </div>
-      <div className="features">
+      {!chat && (<div className="features">
         <div className="wrapper">
           <p className="title">General</p>
           <div className="listVertical">
@@ -140,7 +189,7 @@ function SinglePage() {
             <Map items={[post]} />
           </div>
           <div className="buttons">
-            <button>
+            <button onClick={() => handleOpenChat(currentUser.id, post.userId)}>
               <img src="/chat.png" alt="" />
               Send a Message
             </button>
@@ -155,7 +204,43 @@ function SinglePage() {
             </button>
           </div>
         </div>
-      </div>
+      </div>)}
+      {chat && (
+        <div className="chatBox">
+          <div className="top">
+            <div className="user">
+              <img src={chat.receiver.avatar || "noavatar.jpeg"} alt="" />
+              {chat.receiver.username}
+            </div>
+            <span className="close" onClick={() => setChat(null)}>
+              X
+            </span>
+          </div>
+          <div className="center">
+            {Object.values(chat).map((message, index) => (
+              <div
+                className="chatMessage"
+                style={{
+                  alignSelf:
+                    message.userId === currentUser.id ? "flex-end" : "flex-start",
+                  textAlign:
+                    message.userId === currentUser.id ? "right" : "left",
+                }}
+                key={index}
+              >
+                <p>{message.text}</p>
+                <span>{format(message.createdAt)}</span>
+              </div>
+            ))}
+            <div ref={messageEndRef}></div>
+          </div>
+          <form onSubmit={handleSubmit} className="bottom">
+            <textarea name="text"></textarea>
+            <button>Send</button>
+          </form>
+        </div>
+      )}
+
     </div>
   );
 }

@@ -90,7 +90,7 @@ export const addChat = async (req, res) => {
 export const readChat = async (req, res) => {
   const tokenUserId = req.userId;
 
-  
+
   try {
     const chat = await prisma.chat.update({
       where: {
@@ -109,5 +109,31 @@ export const readChat = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Failed to read chat!" });
+  }
+};
+
+export const getChatsBetweenUsers = async (req, res) => {
+  const { senderId, receiverId } = req.params;  // assuming senderId and receiverId are passed as URL parameters
+console.log(senderId, receiverId);
+  try {
+    const chats = await prisma.chat.findMany({
+      where: {
+        userIDs: {
+          hasEvery: [senderId, receiverId],  // Ensure both sender and receiver are in the chat
+        },
+      },
+      include: {
+        messages: true,  // Include the messages in the chat
+      },
+    });
+
+    if (chats.length === 0) {
+      return res.status(404).json({ message: "No chats found between the specified users." });
+    }
+
+    res.status(200).json(chats);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to retrieve chats!" });
   }
 };

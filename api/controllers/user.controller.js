@@ -76,6 +76,7 @@ export const deleteUser = async (req, res) => {
   }
 };
 
+
 export const savePost = async (req, res) => {
   const postId = req.body.postId;
   const tokenUserId = req.userId;
@@ -112,6 +113,12 @@ export const savePost = async (req, res) => {
     }
   } catch (err) {
     console.error(err);
+
+    // Handling unique constraint error explicitly
+    if (err.code === 'P2002' && err.meta && err.meta.target === 'SavedPost_userId_postId_key') {
+      return res.status(400).json({ message: 'Post already saved by this user.' });
+    }
+
     return res.status(500).json({ message: "An error occurred while saving the post." });
   }
 };

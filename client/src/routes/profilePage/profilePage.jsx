@@ -10,6 +10,7 @@ function ProfilePage() {
   const data = useLoaderData();
 
   const { updateUser, currentUser } = useContext(AuthContext);
+  // console.log(currentUser)
 
   const navigate = useNavigate();
 
@@ -17,7 +18,8 @@ function ProfilePage() {
     try {
       await apiRequest.post("/auth/logout");
       updateUser(null);
-      navigate("/");
+      console.log("hitted logout");
+      navigate("/chat");  
     } catch (err) {
       console.log(err);
     }
