@@ -2,10 +2,9 @@ import { Server } from "socket.io";
 
 const io = new Server({
     cors: {
-        // origin: "http://localhost:5173",
-        // origin: "https://real-estate-react-js-eight.vercel.app/",
-        origin: true,
-
+        origin: 'https://real-estate-react-js-eight.vercel.app',
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+        credentials: true
     },
 });
 
