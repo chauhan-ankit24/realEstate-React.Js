@@ -2,7 +2,7 @@ import { Server } from "socket.io";
 
 const io = new Server({
   cors: {
-    origin: 'https://real-estate-react-js-eight.vercel.app',
+    origin: '*',
   },
 });
 let onlineUser = [];
