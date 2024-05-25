@@ -10,11 +10,11 @@ export const SocketContextProvider = ({ children }) => {
 
   useEffect(() => {
     // setSocket(io("http://localhost:4000"));
-    setSocket(io("https://real-estate-react-js-e5ko.vercel.app/"));
+    setSocket(io("https://real-estate-react-js-b78n.vercel.app/"));
   }, []);
 
   useEffect(() => {
-  currentUser && socket?.emit("newUser", currentUser.id);
+    currentUser && socket?.emit("newUser", currentUser.id);
   }, [currentUser, socket]);
 
   return (
