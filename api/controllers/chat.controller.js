@@ -108,17 +108,29 @@ export const readChat = async (req, res) => {
   }
 
   try {
+    // First get the current chat to check seenBy array
+    const existingChat = await prisma.chat.findUnique({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    if (!existingChat || !existingChat.userIDs.includes(tokenUserId)) {
+      return res.status(403).json({ message: "Not authorized!" });
+    }
+
+    // Only update if user hasn't already seen it
+    let seenByUpdate = existingChat.seenBy;
+    if (!seenByUpdate.includes(tokenUserId)) {
+      seenByUpdate = [...seenByUpdate, tokenUserId];
+    }
+
     const chat = await prisma.chat.update({
       where: {
         id: req.params.id,
-        userIDs: {
-          hasSome: [tokenUserId],
-        },
       },
       data: {
-        seenBy: {
-          set: [tokenUserId],
-        },
+        seenBy: seenByUpdate,
       },
     });
     res.status(200).json(chat);

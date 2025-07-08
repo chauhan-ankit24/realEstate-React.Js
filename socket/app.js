@@ -11,6 +11,9 @@ const addUser = (userId, socketId) => {
     const userExists = onlineUser.find((user) => user.userId === userId);
     if (!userExists) {
         onlineUser.push({ userId, socketId });
+    } else {
+        // Update the socket ID if user reconnects
+        userExists.socketId = socketId;
     }
 };
 
@@ -23,25 +26,23 @@ const getUser = (userId) => {
 };
 
 io.on("connection", (socket) => {
-    console.log(`User connected: ${socket.id}`);
-
     socket.on("newUser", (userId) => {
         addUser(userId, socket.id);
-        console.log(`User added: ${userId}, socket: ${socket.id}`);
     });
 
     socket.on("sendMessage", ({ receiverId, data }) => {
         const receiver = getUser(receiverId);
         if (receiver) {
             io.to(receiver.socketId).emit("getMessage", data);
-            console.log(`Message sent to ${receiverId}`);
-        } else {
-            console.log(`User with id ${receiverId} is not online`);
+            // Also emit notification update
+            io.to(receiver.socketId).emit("getNotification", {
+                isRead: false,
+                count: 1
+            });
         }
     });
 
     socket.on("disconnect", () => {
-        console.log(`User disconnected: ${socket.id}`);
         removeUser(socket.id);
     });
 });

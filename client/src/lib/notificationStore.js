@@ -10,6 +10,9 @@ export const useNotificationStore = create((set) => ({
   decrease: () => {
     set((prev) => ({ number: prev.number - 1 }));
   },
+  increase: () => {
+    set((prev) => ({ number: prev.number + 1 }));
+  },
   reset: () => {
     set({ number: 0 });
   },
