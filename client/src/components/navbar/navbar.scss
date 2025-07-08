@@ -8,6 +8,9 @@ nav {
 
   a {
     transition: all 0.4s ease;
+    position: relative;
+    text-decoration: none;
+    color: inherit;
 
     @include sm {
       display: none;
@@ -15,6 +18,32 @@ nav {
 
     &:hover {
       scale: 1.05;
+    }
+
+    &.active {
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background-color: #fece51;
+        border-radius: 2px;
+      }
+    }
+
+    &:hover:not(.active) {
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: rgba(254, 206, 81, 0.5);
+        border-radius: 1px;
+      }
     }
   }
 
@@ -51,7 +80,6 @@ nav {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    // background-color: #fcf5f3;
     height: 100%;
     z-index: 500;
 
@@ -88,6 +116,7 @@ nav {
         background-color: #fece51;
         cursor: pointer;
         border: none;
+        border-radius: 10px;
         position: relative;
         
         .notification{

@@ -1,11 +1,12 @@
 import { useContext, useState, useEffect } from "react";
 import "./navbar.scss";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { useNotificationStore } from "../../lib/notificationStore";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
+  const location = useLocation();
 
   const { currentUser } = useContext(AuthContext);
 
@@ -21,17 +22,17 @@ function Navbar() {
       <div className="left">
         <Link to="/" className="logo">
           <img src="/logo.png" alt="" />
-          <span>LamaEstate</span>
+          <span>GharDekho</span>
         </Link>
-        <Link to="/">Home</Link>
-        <Link to="/about">About</Link>
-        <Link to="/contact">Contact</Link>
-        <Link to="/agents">Agents</Link>
+        <Link to="/" className={location.pathname === "/" ? "active" : ""}>Home</Link>
+        <Link to="/about" className={location.pathname === "/about" ? "active" : ""}>About</Link>
+        <Link to="/contact" className={location.pathname === "/contact" ? "active" : ""}>Contact</Link>
+        <Link to="/agents" className={location.pathname === "/agents" ? "active" : ""}>Agents</Link>
       </div>
       <div className="right">
         {currentUser ? (
           <div className="user">
-            <img src={currentUser.avatar || "/noavatar.jpg"} alt="" />
+            <img src={currentUser.avatar || "/noavatar.jpeg"} alt="" />
             <span>{currentUser.username}</span>
             <Link to="/profile" className="profile">
               {number > 0 && <div className="notification">{number}</div>}

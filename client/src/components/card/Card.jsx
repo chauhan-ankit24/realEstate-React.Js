@@ -2,10 +2,16 @@ import { Link } from "react-router-dom";
 import "./card.scss";
 
 function Card({ item }) {
+  // Generate a random placeholder image if no image is provided
+  const getPlaceholderImage = () => {
+    const randomId = Math.floor(Math.random() * 1000) + 1;
+    return `https://picsum.photos/300/200?${randomId}`;
+  };
+
   return (
     <div className="card">
       <Link to={`/${item.id}`} className="imageContainer">
-        <img src={item.img} alt="" />
+        <img src={item.img || getPlaceholderImage()} alt="" />
       </Link>
       <div className="textContainer">
         <h2 className="title">

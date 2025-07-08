@@ -126,6 +126,11 @@ export const savePost = async (req, res) => {
 
 export const profilePosts = async (req, res) => {
   const tokenUserId = req.userId;
+
+  if (!tokenUserId) {
+    return res.status(401).json({ message: "User not authenticated!" });
+  }
+
   try {
     const userPosts = await prisma.post.findMany({
       where: { userId: tokenUserId },
@@ -147,6 +152,11 @@ export const profilePosts = async (req, res) => {
 
 export const getNotificationNumber = async (req, res) => {
   const tokenUserId = req.userId;
+
+  if (!tokenUserId) {
+    return res.status(401).json({ message: "User not authenticated!" });
+  }
+
   try {
     const number = await prisma.chat.count({
       where: {
@@ -163,6 +173,6 @@ export const getNotificationNumber = async (req, res) => {
     res.status(200).json(number);
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: "Failed to get profile posts!" });
+    res.status(500).json({ message: "Failed to get notifications!" });
   }
 };

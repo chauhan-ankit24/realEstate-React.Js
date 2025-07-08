@@ -6,8 +6,16 @@ export const register = async (req, res) => {
   const { username, email, password } = req.body;
 
   try {
-    // HASH THE PASSWORD
+    // Check if user already exists
+    const existingUser = await prisma.user.findUnique({
+      where: { email },
+    });
 
+    if (existingUser) {
+      return res.status(400).json({ message: "User with this email already exists!" });
+    }
+
+    // HASH THE PASSWORD
     const hashedPassword = await bcrypt.hash(password, 10);
 
     console.log(hashedPassword);
@@ -26,6 +34,17 @@ export const register = async (req, res) => {
     res.status(201).json({ message: "User created successfully" });
   } catch (err) {
     console.log(err);
+    
+    // Handle specific Prisma errors
+    if (err.code === 'P2002') {
+      if (err.meta && err.meta.target === 'User_email_key') {
+        return res.status(400).json({ message: "User with this email already exists!" });
+      }
+      if (err.meta && err.meta.target === 'User_username_key') {
+        return res.status(400).json({ message: "Username is already taken!" });
+      }
+    }
+    
     res.status(500).json({ message: "Failed to create user!" });
   }
 };

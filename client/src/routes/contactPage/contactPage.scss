@@ -1,0 +1,132 @@
+@import "../../responsive.scss";
+
+.contactPage {
+  padding: 0 0 20px 0;
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+
+    @include md {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .contactInfo {
+      h1 {
+        font-size: 36px;
+        margin-bottom: 15px;
+        color: #333;
+
+        @include lg {
+          font-size: 28px;
+        }
+      }
+
+      p {
+        font-size: 16px;
+        line-height: 1.5;
+        color: #666;
+        margin-bottom: 25px;
+      }
+
+      .contactMethods {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+
+        .method {
+          display: flex;
+          align-items: flex-start;
+          gap: 15px;
+          padding: 15px;
+          background: #fefefe;
+          border-radius: 10px;
+          border-left: 3px solid #fece51;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+          .icon {
+            font-size: 20px;
+            width: 30px;
+            text-align: center;
+          }
+
+          h3 {
+            font-size: 16px;
+            margin-bottom: 3px;
+            color: #333;
+          }
+
+          p {
+            margin: 1px 0;
+            color: #666;
+            font-size: 14px;
+          }
+        }
+      }
+    }
+
+    .contactForm {
+      background: #fefefe;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      border: 1px solid #f5f5dc;
+
+      h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        color: #333;
+        text-align: center;
+      }
+
+      .formGroup {
+        margin-bottom: 15px;
+
+        input, textarea {
+          width: 100%;
+          padding: 12px;
+          border: 2px solid #f5f5dc;
+          border-radius: 6px;
+          font-size: 14px;
+          transition: border-color 0.3s ease;
+
+          &:focus {
+            outline: none;
+            border-color: #fece51;
+          }
+
+          &::placeholder {
+            color: #aaa;
+          }
+        }
+
+        textarea {
+          resize: vertical;
+          min-height: 80px;
+        }
+      }
+
+      .submitBtn {
+        width: 100%;
+        background: #fece51;
+        color: #333;
+        border: none;
+        padding: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+          background: #e6b948;
+        }
+      }
+    }
+  }
+}

@@ -13,11 +13,11 @@ import { verifyToken } from "../middleware/verifyToken.js";
 const router = express.Router();
 
 router.get("/", getUsers);
-// router.get("/search/:id", verifyToken, getUser);
+router.get("/:id", getUser);
 router.put("/:id", verifyToken, updateUser);
 router.delete("/:id", verifyToken, deleteUser);
 router.post("/save", verifyToken, savePost);
-router.get("/profilePosts", profilePosts);
-router.get("/notification", getNotificationNumber);
+router.get("/profilePosts", verifyToken, profilePosts);
+router.get("/notification", verifyToken, getNotificationNumber);
 
 export default router;

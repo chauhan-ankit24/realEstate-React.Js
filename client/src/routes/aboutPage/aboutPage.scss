@@ -1,0 +1,120 @@
+@import "../../responsive.scss";
+
+.aboutPage {
+  padding: 0 0 20px 0;
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    gap: 30px;
+    align-items: center;
+
+    @include md {
+      flex-direction: column;
+      text-align: center;
+      gap: 20px;
+    }
+
+    .textContainer {
+      flex: 1;
+      
+
+      h1 {
+        font-size: 36px;
+        margin-bottom: 15px;
+        color: #333;
+
+        @include lg {
+          font-size: 28px;
+        }
+      }
+
+      p {
+        font-size: 16px;
+        line-height: 1.5;
+        color: #666;
+        margin-bottom: 25px;
+      }
+
+      .features {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin-bottom: 25px;
+
+        @include sm {
+          grid-template-columns: 1fr;
+        }
+
+        .feature {
+          background: #fefefe;
+          padding: 15px;
+          border-radius: 10px;
+          border-left: 3px solid #fece51;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+          h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #333;
+          }
+
+          p {
+            font-size: 14px;
+            color: #666;
+            margin: 0;
+          }
+        }
+      }
+
+      .stats {
+        display: flex;
+        gap: 20px;
+        justify-content: space-between;
+
+        @include sm {
+          flex-wrap: wrap;
+          gap: 15px;
+        }
+
+        .stat {
+          text-align: center;
+          background: #fefefe;
+          padding: 15px 10px;
+          border-radius: 10px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+          border: 1px solid #f5f5dc;
+          flex: 1;
+
+          h2 {
+            font-size: 24px;
+            color: #fece51;
+            margin-bottom: 3px;
+            font-weight: 700;
+          }
+
+          p {
+            font-size: 12px;
+            color: #666;
+            margin: 0;
+          }
+        }
+      }
+    }
+
+    .imageContainer {
+      flex: 0.6;
+      max-width: 400px;
+      
+      img {
+        width: 100%;
+        height: auto;
+        border-radius: 15px;
+        border: 2px solid #fece51;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      }
+    }
+  }
+}

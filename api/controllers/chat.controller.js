@@ -3,6 +3,10 @@ import prisma from "../lib/prisma.js";
 export const getChats = async (req, res) => {
   const tokenUserId = req.userId;
 
+  if (!tokenUserId) {
+    return res.status(401).json({ message: "User not authenticated!" });
+  }
+
   try {
     const chats = await prisma.chat.findMany({
       where: {
@@ -37,6 +41,10 @@ export const getChats = async (req, res) => {
 
 export const getChat = async (req, res) => {
   const tokenUserId = req.userId;
+
+  if (!tokenUserId) {
+    return res.status(401).json({ message: "User not authenticated!" });
+  }
 
   try {
     const chat = await prisma.chat.findUnique({
@@ -74,6 +82,11 @@ export const getChat = async (req, res) => {
 
 export const addChat = async (req, res) => {
   const tokenUserId = req.userId;
+
+  if (!tokenUserId) {
+    return res.status(401).json({ message: "User not authenticated!" });
+  }
+
   try {
     const newChat = await prisma.chat.create({
       data: {
@@ -90,6 +103,9 @@ export const addChat = async (req, res) => {
 export const readChat = async (req, res) => {
   const tokenUserId = req.userId;
 
+  if (!tokenUserId) {
+    return res.status(401).json({ message: "User not authenticated!" });
+  }
 
   try {
     const chat = await prisma.chat.update({
@@ -113,22 +129,50 @@ export const readChat = async (req, res) => {
 };
 
 export const getChatsBetweenUsers = async (req, res) => {
-  const { senderId, receiverId } = req.params;  // assuming senderId and receiverId are passed as URL parameters
-console.log(senderId, receiverId);
+  const { senderId, receiverId } = req.params;
+  const tokenUserId = req.userId;
+
+  if (!tokenUserId) {
+    return res.status(401).json({ message: "User not authenticated!" });
+  }
+
+  // Ensure the authenticated user is either the sender or receiver
+  if (tokenUserId !== senderId && tokenUserId !== receiverId) {
+    return res.status(403).json({ message: "Not authorized to view this chat!" });
+  }
+
+  console.log(senderId, receiverId);
   try {
-    const chats = await prisma.chat.findMany({
+    let chats = await prisma.chat.findMany({
       where: {
         userIDs: {
           hasEvery: [senderId, receiverId],  // Ensure both sender and receiver are in the chat
         },
       },
       include: {
-        messages: true,  // Include the messages in the chat
+        messages: {
+          orderBy: {
+            createdAt: "asc",
+          },
+        },
       },
     });
 
+    // If no chat exists between users, create one
     if (chats.length === 0) {
-      return res.status(404).json({ message: "No chats found between the specified users." });
+      const newChat = await prisma.chat.create({
+        data: {
+          userIDs: [senderId, receiverId],
+        },
+        include: {
+          messages: {
+            orderBy: {
+              createdAt: "asc",
+            },
+          },
+        },
+      });
+      chats = [newChat];
     }
 
     res.status(200).json(chats);

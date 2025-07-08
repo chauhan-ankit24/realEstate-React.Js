@@ -10,7 +10,6 @@ function ProfilePage() {
   const data = useLoaderData();
 
   const { updateUser, currentUser } = useContext(AuthContext);
-  // console.log(currentUser)
 
   const navigate = useNavigate();
 

@@ -105,6 +105,15 @@
     background-color: #fcf5f3;
     height: 100%;
     overflow-y: scroll;
+    padding: 20px;
+    
+    /* Hide scrollbar but keep scroll functionality */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    
+    &::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera */
+    }
 
     @include md {
       flex: none;
@@ -113,13 +122,12 @@
     }
 
     .wrapper {
-      padding: 0px 20px;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 30px;
 
       @include md {
-        padding: 20px;
+        gap: 25px;
       }
 
       img {
@@ -130,7 +138,220 @@
       .title {
         font-weight: bold;
         font-size: 18px;
+        margin-bottom: 15px;
+        color: #333;
+      }
+
+      .chatSection {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
         margin-bottom: 10px;
+
+        .title {
+          margin-bottom: 15px;
+        }
+
+        .buttons {
+          display: flex;
+          justify-content: space-between;
+          gap: 10px;
+
+          button {
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: white;
+            border: 2px solid #fece51;
+            border-radius: 8px;
+            cursor: pointer;
+            flex: 1;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+
+            img {
+              width: 16px;
+              height: 16px;
+              transition: transform 0.3s ease;
+            }
+
+            &:hover {
+              background-color: #fece51 !important;
+              color: white !important;
+              transform: translateY(-2px);
+              box-shadow: 0 4px 15px rgba(254, 206, 81, 0.4);
+              border-color: #e6b847;
+
+              img {
+                transform: scale(1.1);
+              }
+            }
+
+            &:active {
+              transform: translateY(0);
+              box-shadow: 0 2px 8px rgba(254, 206, 81, 0.3);
+            }
+
+            /* Special styling for saved button */
+            &[style*="background-color: rgb(254, 206, 81)"],
+            &[style*="background-color:#fece51"] {
+              background-color: #fece51 !important;
+              color: white !important;
+              
+              &:hover {
+                background-color: #e6b847 !important;
+                color: white !important;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 15px rgba(254, 206, 81, 0.5);
+              }
+            }
+          }
+        }
+      }
+
+      .chatBox {
+        background-color: white;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        overflow: hidden;
+        height: 400px;
+        display: flex;
+        flex-direction: column;
+
+        .top {
+          background-color: #f7c14b85;
+          padding: 15px 20px;
+          font-weight: bold;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-shrink: 0;
+
+          .user {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+
+            img {
+              width: 30px;
+              height: 30px;
+              border-radius: 50%;
+              object-fit: cover;
+            }
+          }
+          .close {
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+          }
+        }
+        .center {
+          flex: 1;
+          overflow-y: auto;
+          padding: 15px 20px;
+          display: flex;
+          flex-direction: column;
+          gap: 15px;
+          
+          /* Hide scrollbar but keep scroll functionality */
+          scrollbar-width: none; /* Firefox */
+          -ms-overflow-style: none; /* IE and Edge */
+          
+          &::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+          }
+
+          .chatMessage{
+            width: 70%;
+
+            p {
+              background-color: #f5f5f5;
+              padding: 10px;
+              border-radius: 8px;
+              margin-bottom: 5px;
+              word-wrap: break-word;
+            }
+
+            span{
+              font-size: 12px;
+              color: #888;
+            }
+
+            &[style*="flex-end"] {
+              p {
+                background-color: #fece51;
+                color: white;
+              }
+            }
+          }
+        }
+        .bottom {
+          border-top: 1px solid #f7c14b85;
+          min-height: 70px;
+          display: flex;
+          align-items: stretch;
+          flex-shrink: 0;
+
+          textarea{
+            flex: 3;
+            border: none;
+            padding: 15px 20px;
+            resize: none;
+            outline: none;
+            font-family: inherit;
+            font-size: 14px;
+            line-height: 1.4;
+            background-color: #f9f9f9;
+
+            &::placeholder {
+              color: #999;
+              font-style: italic;
+            }
+
+            &:focus {
+              background-color: white;
+            }
+          }
+
+          button{
+            flex: 1;
+            background-color: #f7c14b85;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            color: #333;
+            transition: background-color 0.3s ease;
+
+            &:hover {
+              background-color: #fece51;
+              color: white;
+            }
+
+            &:active {
+              background-color: #e6b847;
+            }
+          }
+        }
+      }
+
+      .propertyDetails {
+        .title {
+          color: #333;
+          margin-top: 10px;
+          margin-bottom: 15px;
+        }
+
+        /* Add spacing between sections */
+        .listVertical, .sizes, .listHorizontal, .mapContainer {
+          margin-bottom: 25px;
+        }
       }
 
       .feature {
@@ -140,6 +361,8 @@
 
         img {
           background-color: rgba(254, 205, 81, 0.209);
+          padding: 8px;
+          border-radius: 5px;
         }
 
         .featureText {
@@ -189,105 +412,6 @@
       .mapContainer {
         width: 100%;
         height: 200px;
-      }
-
-      .buttons {
-        display: flex;
-        justify-content: space-between;
-
-        button {
-          padding: 20px;
-          display: flex;
-          align-items: center;
-          gap: 5px;
-          background-color: white;
-          border: 1px solid #fece51;
-          border-radius: 5px;
-          cursor: pointer;
-
-          img {
-            width: 16px;
-            height: 16px;
-          }
-        }
-      }
-    }
-  }
-  .chatBox {
-    flex: 1;
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-
-    .top {
-      background-color: #f7c14b85;
-      padding: 20px;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      .user {
-        display: flex;
-        align-items: center;
-        gap: 20px;
-
-        img {
-          width: 30px;
-          height: 30px;
-          border-radius: 50%;
-          object-fit: cover;
-        }
-      }
-      .close {
-        cursor: pointer;
-      }
-    }
-    .center {
-      height: 350px;
-      overflow: scroll;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-
-      .chatMessage{
-        width: 50%;
-
-        &.own{
-          align-self: flex-end;
-          text-align: right;
-        }
-
-        span{
-          font-size: 12px;
-          background-color: #f7c14b39;
-          padding: 2px;
-          border-radius: 5px;
-        }
-      }
-    }
-    .bottom {
-      border-top: 2px solid #f7c14b85;
-      height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      textarea{
-        flex:3;
-        height: 100%;
-        border: none;
-        padding: 20px;
-      }
-
-      button{
-        flex:1;
-        background-color: #f7c14b85;
-        height: 100%;
-        border: none;
-        cursor: pointer;
       }
     }
   }
