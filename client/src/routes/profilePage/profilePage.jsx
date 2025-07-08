@@ -27,62 +27,83 @@ function ProfilePage() {
     <div className="profilePage">
       <div className="details">
         <div className="wrapper">
-          <div className="title">
-            <h1>User Information</h1>
-            <Link to="/profile/update">
-              <button>Update Profile</button>
-            </Link>
+          {/* User Information Section */}
+          <div className="userSection">
+            <div className="userInfo">
+              <div className="avatarContainer">
+                <img 
+                  src={currentUser.avatar || "/noavatar.jpeg"} 
+                  alt="User Avatar" 
+                  className="userAvatar"
+                />
+              </div>
+              <div className="userDetails">
+                <h1 className="userName">{currentUser.username}</h1>
+                <p className="userEmail">{currentUser.email}</p>
+                <div className="userActions">
+                  <Link to="/profile/update">
+                    <button className="updateBtn">Update Profile</button>
+                  </Link>
+                  <button onClick={handleLogout} className="logoutBtn">Logout</button>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="info">
-            <span>
-              Avatar:
-              <img src={currentUser.avatar || "noavatar.jpg"} alt="" />
-            </span>
-            <span>
-              Username: <b>{currentUser.username}</b>
-            </span>
-            <span>
-              E-mail: <b>{currentUser.email}</b>
-            </span>
-            <button onClick={handleLogout}>Logout</button>
+
+          {/* Content Sections */}
+          <div className="contentSections">
+            <div className="section">
+              <div className="sectionHeader">
+                <h2>My Properties</h2>
+                <Link to="/add">
+                  <button className="actionBtn">Create New Post</button>
+                </Link>
+              </div>
+              <div className="sectionContent">
+                <Suspense fallback={<div className="loading">Loading properties...</div>}>
+                  <Await
+                    resolve={data.postResponse}
+                    errorElement={<div className="error">Error loading posts!</div>}
+                  >
+                    {(postResponse) => <List posts={postResponse.data.userPosts} />}
+                  </Await>
+                </Suspense>
+              </div>
+            </div>
+
+            <div className="section">
+              <div className="sectionHeader">
+                <h2>Saved Properties</h2>
+              </div>
+              <div className="sectionContent">
+                <Suspense fallback={<div className="loading">Loading saved properties...</div>}>
+                  <Await
+                    resolve={data.postResponse}
+                    errorElement={<div className="error">Error loading posts!</div>}
+                  >
+                    {(postResponse) => <List posts={postResponse.data.savedPosts} />}
+                  </Await>
+                </Suspense>
+              </div>
+            </div>
           </div>
-          <div className="title">
-            <h1>My List</h1>
-            <Link to="/add">
-              <button>Create New Post</button>
-            </Link>
-          </div>
-          <Suspense fallback={<p>Loading...</p>}>
-            <Await
-              resolve={data.postResponse}
-              errorElement={<p>Error loading posts!</p>}
-            >
-              {(postResponse) => <List posts={postResponse.data.userPosts} />}
-            </Await>
-          </Suspense>
-          <div className="title">
-            <h1>Saved List</h1>
-          </div>
-          <Suspense fallback={<p>Loading...</p>}>
-            <Await
-              resolve={data.postResponse}
-              errorElement={<p>Error loading posts!</p>}
-            >
-              {(postResponse) => <List posts={postResponse.data.savedPosts} />}
-            </Await>
-          </Suspense>
         </div>
       </div>
       <div className="chatContainer">
         <div className="wrapper">
-          <Suspense fallback={<p>Loading...</p>}>
-            <Await
-              resolve={data.chatResponse}
-              errorElement={<p>Error loading chats!</p>}
-            >
-              {(chatResponse) => <Chat chats={chatResponse.data}/>}
-            </Await>
-          </Suspense>
+          <div className="chatSection">
+            <h3>Messages</h3>
+            <div className="chatContent">
+              <Suspense fallback={<div className="loading">Loading chats...</div>}>
+                <Await
+                  resolve={data.chatResponse}
+                  errorElement={<div className="error">Error loading chats!</div>}
+                >
+                  {(chatResponse) => <Chat chats={chatResponse.data}/>}
+                </Await>
+              </Suspense>
+            </div>
+          </div>
         </div>
       </div>
     </div>
