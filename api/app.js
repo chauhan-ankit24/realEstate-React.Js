@@ -13,7 +13,10 @@ import messageRoute from "./routes/message.route.js";
 
 const app = express();
 
-app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
+app.use(cors({ 
+  origin: "*", 
+  credentials: true 
+}));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -24,6 +27,6 @@ app.use("/api/test", testRoute);
 app.use("/api/chats", chatRoute);
 app.use("/api/messages", messageRoute);
 
-app.listen(5000, () => {
-  console.log("Server is running at 5000!");
+app.listen(process.env.PORT || 5000, () => {
+  console.log("Server is running at", process.env.PORT || 5000);
 });

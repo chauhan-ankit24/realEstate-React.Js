@@ -10,9 +10,8 @@ export const SocketContextProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    // setSocket(io("http://localhost:4000"));
-    // setSocket(io("https://realestate-react-js-sock.onrender.com"));
-    const newSocket = io("http://localhost:4000");
+    const socketUrl = import.meta.env.VITE_SOCKET_URL || "http://localhost:4000";
+    const newSocket = io(socketUrl);
     
     newSocket.on("connect", () => {
       console.log("Socket connected:", newSocket.id);

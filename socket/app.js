@@ -2,7 +2,8 @@ import { Server } from "socket.io";
 
 const io = new Server({
     cors: {
-        origin: '*',
+        origin: "*",
+        credentials: true
     },
 });
 let onlineUser = [];
@@ -47,6 +48,6 @@ io.on("connection", (socket) => {
     });
 });
 
-io.listen(4000, () => {
-    console.log("Server is listening on port 4000");
+io.listen(process.env.PORT || 4000, () => {
+    console.log("Socket server is listening on port", process.env.PORT || 4000);
 });
