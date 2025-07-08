@@ -20,6 +20,11 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
+// Root endpoint for testing
+app.get("/", (req, res) => {
+  res.json({ message: "Real Estate API Server is running!", timestamp: new Date().toISOString() });
+});
+
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
