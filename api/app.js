@@ -17,7 +17,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
-      "https://real-estate-blush-eight-49.vercel.app",
+      "https://real-estate-react-js-eight.vercel.app/",
     ],
     credentials: true,
   })
