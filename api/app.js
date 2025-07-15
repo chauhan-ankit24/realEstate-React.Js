@@ -13,16 +13,24 @@ import messageRoute from "./routes/message.route.js";
 
 const app = express();
 
-app.use(cors({ 
-  origin: "*", 
-  credentials: true 
-}));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "https://real-estate-blush-eight-49.vercel.app",
+    ],
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(cookieParser());
 
 // Root endpoint for testing
 app.get("/", (req, res) => {
-  res.json({ message: "Real Estate API Server is running!", timestamp: new Date().toISOString() });
+  res.json({
+    message: "Real Estate API Server is running!",
+    timestamp: new Date().toISOString(),
+  });
 });
 
 app.use("/api/auth", authRoute);
