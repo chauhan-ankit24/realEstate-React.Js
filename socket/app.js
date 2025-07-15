@@ -1,11 +1,15 @@
 import { Server } from "socket.io";
 
-const io = new Server({
-    cors: {
-        origin: "*",
-        credentials: true
-    },
+const io = new Server(server, {
+  cors: {
+    origin: [
+      "http://localhost:5173",
+      "https://real-estate-react-js-eight.vercel.app"
+    ],
+    credentials: true
+  }
 });
+
 let onlineUser = [];
 
 const addUser = (userId, socketId) => {
