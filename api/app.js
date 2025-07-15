@@ -16,8 +16,8 @@ const app = express();
 app.use(
   cors({
     origin: [
-      "http://localhost:5173/",
-      "https://real-estate-react-js-eight.vercel.app/",
+      "http://localhost:5173",
+      "https://real-estate-react-js-eight.vercel.app",
     ],
     credentials: true,
   })
