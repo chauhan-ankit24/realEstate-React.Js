@@ -17,7 +17,7 @@ function ProfilePage() {
     try {
       await apiRequest.post("/auth/logout");
       updateUser(null);
-      console.log("hitted logout");
+      // console.log("hitted logout");
       navigate("/chat");  
     } catch (err) {
       console.log(err);

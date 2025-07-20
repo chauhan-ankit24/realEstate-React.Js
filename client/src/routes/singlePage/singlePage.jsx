@@ -13,14 +13,14 @@ import { SocketContext } from "../../context/SocketContext";
 
 function SinglePage() {
   const post = useLoaderData();
-  console.log(post);
+  // console.log(post);
 
   const [chatId, setChatId] = useState(null);
   const [saved, setSaved] = useState(post.isSaved);
   const { currentUser } = useContext(AuthContext);
-  console.log(currentUser);
+  // console.log(currentUser);
   const [chat, setChat] = useState(null);
-  console.log(chat)
+  // console.log(chat)
 
   const navigate = useNavigate();
   const chatContainerRef = useRef();
@@ -76,9 +76,9 @@ function SinglePage() {
         return;
       }
       
-      console.log(id, receiver);
+      // console.log(id, receiver);
       const res = await apiRequest("/chats/between/" + id + "/" + receiver);
-      console.log(res.data);
+      // console.log(res.data);
       
       if (res.data && res.data.length > 0) {
         setChatId(res.data[0].id);
